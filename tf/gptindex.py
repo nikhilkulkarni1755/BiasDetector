@@ -4,6 +4,7 @@ from sklearn.model_selection import train_test_split
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 import tensorflow as tf
+import pickle
 
 # Read data from CSV
 data = pd.read_csv("writing_samples.csv")
@@ -32,6 +33,9 @@ val_sequences = tokenizer.texts_to_sequences(X_val)
 padded_train_sequences = pad_sequences(train_sequences, maxlen=20)
 padded_val_sequences = pad_sequences(val_sequences, maxlen=20)
 
+with open('tokenizer.pickle', 'wb') as handle:
+    pickle.dump(tokenizer, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
 # Define your model
 model = tf.keras.Sequential([
     tf.keras.layers.Embedding(len(word_index) + 1, 16, input_length=20),
@@ -40,6 +44,8 @@ model = tf.keras.Sequential([
     tf.keras.layers.Dropout(.4),
     tf.keras.layers.Dense(16, activation='relu'),
     tf.keras.layers.Dense(1, activation='sigmoid')
+    # tf.keras.layers.Dense(1)
+
 ])
 
 # Compile the model
@@ -66,13 +72,16 @@ model.fit(padded_train_sequences, np.array(y_train), epochs=100, validation_data
 # coorect: .56
 # new_prompt = "naruto is a show with 500+ episodes"
 
-# new_prompt = "Google is a big company"
+new_prompt = "Google is a big company"
 
 # new_prompt = "Dwight is so wholesome"
 
 # new_prompt = "sahil shah is a great comedian!"
 
-new_prompt = "the weather is 70 degrees"
+# new_prompt = "the weather is 70 degrees"
+
+# new_prompt = "i love cheese"
+
 
 
 # Tokenize and pad the new prompt
@@ -89,6 +98,10 @@ if prediction <= .5:
     print("Prediction: Biased")
 else:
     print("Prediction: Not Biased")
+
+# model.save("bias_detector_v1")
+model.save("bias_detector_v1.keras")
+# model.save("bias_detector_v1.h5")
 
 
 # Make predictions
