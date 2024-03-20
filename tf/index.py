@@ -4,12 +4,13 @@ import numpy as np
 # from sklearn.model_selection import train_test_split
 
 df = pd.read_csv("writing_samples.csv")
+X = df[df.columns[0]].values
+y = df[df.columns[1]].values
 
 # works!
 # print(df.head())
 
-X = df[df.columns[0]].values
-y = df[df.columns[1]].values
+
 
 # following text tokenization from: 
 # https://youtu.be/VtRLrQ3Ev-U?si=uZ4lrOUO57oODvbi&t=5314
@@ -71,6 +72,12 @@ model = tf.keras.Sequential([
     # tf.keras.layers.Dropout(.4),
     tf.keras.layers.Dense(1, activation='sigmoid')
 ])
+
+# model = tf.keras.Sequential([
+#     tf.keras.layers.Dense(32, activation='relu'),
+#     # tf.keras.layers.Dropout(.4),
+#     tf.keras.layers.Dense(1, activation='sigmoid')
+# ])
 
 model.compile(
     optimizer=tf.keras.optimizers.Adam(learning_rate=.001),

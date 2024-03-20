@@ -72,7 +72,7 @@ model.fit(padded_train_sequences, np.array(y_train), epochs=100, validation_data
 
 # new_prompt = "sahil shah is a great comedian!"
 
-new_prompt = "Jenna Ortega taking backshots from mfin Bilbo Baggins in her new movie I’m crying bro "
+new_prompt = "the weather is 70 degrees"
 
 
 # Tokenize and pad the new prompt
